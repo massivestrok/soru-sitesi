@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soru 💜</title>
+
+<style>
+/* GENEL */
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0b0b16;
+}
+
+/* PROFESYONEL HAREKETLİ ARKA PLAN */
+.background {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(120, 80, 255, 0.25), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(0, 200, 255, 0.18), transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(255, 100, 200, 0.15), transparent 45%),
+        linear-gradient(180deg, #0f1025, #070711);
+    animation: bgMove 18s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+@keyframes bgMove {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(15deg); }
+}
+
+/* ARKA PLAN KALPLER */
+.heart {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(255, 120, 200, 0.25);
+    animation: float 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(110vh) scale(0.8);
+        opacity: 0;
+    }
+    15% { opacity: 1; }
+    100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ORTA ALAN */
+.container {
+    position: relative;
+    text-align: center;
+    width: 460px;
+    max-width: 92%;
+    z-index: 2;
+}
+
+/* SORU KUTUSU */
+.box {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    padding: 40px 35px;
+    border-radius: 26px;
+    font-size: 24px;
+    font-weight: 700;
+    min-height: 80px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* BUTON ALANI */
+.button-area {
+    position: relative;
+    width: 100%;
+    height: 90px;
+    margin-top: 40px;
+}
+
+/* GENEL BUTON */
+button {
+    padding: 15px 40px;
+    font-size: 16px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+/* EVET */
+#evet {
+    position: absolute;
+    left: 40px;
+    top: 20px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+}
+
+#evet:hover {
+    transform: scale(1.08);
+}
+
+/* HAYIR */
+#hayir {
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    background: linear-gradient(135deg, #ff5f6d, #e74c3c);
+    color: white;
+    transition: right 0.25s ease, transform 0.25s ease;
+}
+
+/* MOBİL */
+@media (max-width: 500px) {
+    .box {
+        font-size: 20px;
+        padding: 32px 22px;
+        min-height: 70px;
+    }
+
+    button {
+        padding: 14px 32px;
+        font-size: 15px;
+    }
+
+    #evet { left: 20px; }
+    #hayir { right: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+    <div class="box">
+        <span id="metin"></span>
+    </div>
+
+    <div class="button-area">
+        <button id="evet">Evet</button>
+        <button id="hayir">Hayır</button>
+    </div>
+</div>
+
+<script>
+/* METİNLER */
+const soruMetni = "Muhammed bir kere sksm olurmuuu?";
+const evetMesaji = "💜 ADAMSIN MAYKKK! 💜";
+
+const metinAlani = document.getElementById("metin");
+const evetBtn = document.getElementById("evet");
+const hayirBtn = document.getElementById("hayir");
+
+/* YAZI ANİMASYONU */
+function yazAnimasyon(metin) {
+    metinAlani.innerHTML = "";
+    let i = 0;
+    function yaz() {
+        if (i < metin.length) {
+            metinAlani.innerHTML += metin.charAt(i);
+            i++;
+            setTimeout(yaz, 80);
+        }
+    }
+    yaz();
+}
+yazAnimasyon(soruMetni);
+
+/* EVET */
+evetBtn.addEventListener("click", () => {
+    yazAnimasyon(evetMesaji);
+    evetBtn.style.display = "none";
+    hayirBtn.style.display = "none";
+});
+
+/* HAYIR – HER SEFERİNDE KAÇ */
+let sagda = true;
+hayirBtn.addEventListener("mouseenter", kac);
+hayirBtn.addEventListener("touchstart", kac);
+
+function kac() {
+    hayirBtn.style.right = sagda ? "180px" : "40px";
+    sagda = !sagda;
+}
+
+/* PROFESYONEL KALPLER */
+function kalpOlustur() {
+    const kalp = document.createElement("div");
+    kalp.className = "heart";
+    kalp.innerHTML = "❤️";
+    kalp.style.left = Math.random() * 100 + "vw";
+    kalp.style.fontSize = (8 + Math.random() * 10) + "px";
+    document.body.appendChild(kalp);
+    setTimeout(() => kalp.remove(), 10000);
+}
+setInterval(kalpOlustur, 700);
+</script>
+
+</body>
+</html>
